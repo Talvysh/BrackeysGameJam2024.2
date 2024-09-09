@@ -11,9 +11,11 @@ material = SubResource("StandardMaterial3D_idnnq")
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8uxo8"]
 
 [node name="Zombie" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_layer = 2
 script = ExtResource("1_8b76k")
 move_speed = 5.0
+display_name = "Zombie"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_v3o11")

@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://bytxa5x1iwqja"]
+
+[ext_resource type="Script" path="res://towers/plot/plot.gd" id="1_mdyex"]
+[ext_resource type="PackedScene" uid="uid://bdrb2drq4wnew" path="res://ui/plot_popup.tscn" id="2_2733r"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gk15o"]
+albedo_color = Color(0.180769, 0.263751, 0.165788, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2yomp"]
+material = SubResource("StandardMaterial3D_gk15o")
+size = Vector3(4, 0.2, 4)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_50g3l"]
+points = PackedVector3Array(-2, -0.1, -2, -2, 0.1, -2, 2, -0.1, -2, -2, -0.1, 2, -2, 0.1, 2, 2, 0.1, -2, 2, -0.1, 2, 2, 0.1, 2)
+
+[node name="Plot" type="Area3D"]
+script = ExtResource("1_mdyex")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_2yomp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_50g3l")
+
+[node name="PlotPopup" parent="." node_paths=PackedStringArray("plot") instance=ExtResource("2_2733r")]
+visible = false
+plot = NodePath("..")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
