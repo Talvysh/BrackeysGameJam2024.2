@@ -1,13 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://ci8y8mvd357x0"]
+[gd_scene load_steps=6 format=3 uid="uid://ci8y8mvd357x0"]
 
 [ext_resource type="Script" path="res://ui/ui.gd" id="1_urow1"]
 [ext_resource type="Script" path="res://ui/selecter.gd" id="2_ajrkt"]
-[ext_resource type="Script" path="res://ui/build_mode/build_mode.gd" id="3_3pn61"]
+[ext_resource type="Script" path="res://ui/build_mode.gd" id="3_3pn61"]
 [ext_resource type="Script" path="res://data/structure_data.gd" id="4_1oiio"]
-[ext_resource type="Resource" uid="uid://bwvetvxthqlrc" path="res://structures/grove/summoning_circle/summoning_circle_data.tres" id="5_4fpew"]
-[ext_resource type="Resource" uid="uid://ct8773pmlinuy" path="res://structures/grove/mana_pool/mana_pool_data.tres" id="6_jnplt"]
-[ext_resource type="Resource" uid="uid://crfj2mchs4ss7" path="res://structures/grove/tower/tower_data.tres" id="7_veva0"]
-[ext_resource type="Resource" uid="uid://b0wfl31t4ah31" path="res://structures/grove/wall/wall_data.tres" id="8_wquw1"]
+
+[sub_resource type="Resource" id="Resource_81dkx"]
+script = ExtResource("4_1oiio")
 
 [node name="UI" type="CanvasLayer"]
 script = ExtResource("1_urow1")
@@ -55,7 +54,6 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="BuildMode" type="PanelContainer" parent="."]
-visible = false
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
@@ -63,15 +61,5 @@ anchor_bottom = 1.0
 offset_top = -219.0
 grow_horizontal = 2
 grow_vertical = 0
-mouse_filter = 1
 script = ExtResource("3_3pn61")
-structures = Array[ExtResource("4_1oiio")]([ExtResource("5_4fpew"), ExtResource("6_jnplt"), ExtResource("7_veva0"), ExtResource("8_wquw1")])
-
-[node name="PlacementGhost" type="Node3D" parent="BuildMode"]
-visible = false
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="BuildMode/PlacementGhost"]
-
-[node name="Structures" type="GridContainer" parent="BuildMode"]
-layout_mode = 2
-columns = 4
+structures = Array[ExtResource("4_1oiio")]([SubResource("Resource_81dkx")])

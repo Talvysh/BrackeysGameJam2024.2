@@ -11,13 +11,15 @@ config_version=5
 [application]
 
 config/name="BrackeysGameJam2024.2"
-run/main_scene="res://levels/level_1.tscn"
+run/main_scene="res://levels/main.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 SignalBus="*res://managers/signal_bus.gd"
+Util="*res://managers/util.gd"
+GameManager="*res://managers/game_manager.gd"
 
 [display]
 
@@ -25,6 +27,15 @@ window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="viewport"
 window/stretch/aspect="keep_height"
+
+[file_customization]
+
+folder_colors={
+"res://characters/corrupted/": "purple",
+"res://characters/grove/": "green",
+"res://structures/corrupted/": "purple",
+"res://structures/grove/": "green"
+}
 
 [global_group]
 
@@ -77,8 +88,18 @@ move_units={
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":2,"position":Vector2(217, 21),"global_position":Vector2(226, 67),"factor":1.0,"button_index":2,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
+sprint={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194325,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
+
+[layer_names]
+
+3d_physics/layer_1="world"
+3d_physics/layer_2="corrupted"
+3d_physics/layer_3="grove"
 
 [rendering]
 
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
+renderer/rendering_method.mobile="forward_plus"

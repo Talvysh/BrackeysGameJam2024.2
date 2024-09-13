@@ -1,12 +1,21 @@
 extends Camera3D
 
-@export var move_speed := 10.0
+@export var move_speed := 20.0
+@export var sprint_speed := 40.0
 
 
 func _physics_process(delta: float) -> void:
-	var movement = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
-	global_position.x += movement.x * move_speed * delta
-	global_position.z += movement.y * move_speed * delta
+	var move_input = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+	var movement := Vector3.ZERO
+	
+	if Input.is_action_pressed("sprint"):
+		movement.x = move_input.x * sprint_speed * delta
+		movement.z = move_input.y * sprint_speed * delta
+	else:
+		movement.x = move_input.x * move_speed * delta
+		movement.z = move_input.y * move_speed * delta
+	
+	global_position += movement
 	
 	if Input.is_action_pressed("move_up"):
 		global_position.y += move_speed * delta

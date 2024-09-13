@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://d4aodo0uuicqq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_64le7"]
+albedo_color = Color(0.143692, 0.279755, 0.999994, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_v0fhn"]
+material = SubResource("StandardMaterial3D_64le7")
+size = Vector3(2, 0.5, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4g2jo"]
+size = Vector3(2, 0.5, 2)
+
+[node name="ManaPool" type="StaticBody3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+mesh = SubResource("BoxMesh_v0fhn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+shape = SubResource("BoxShape3D_4g2jo")
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
+radius = 1.5
+affect_navigation_mesh = true
+use_3d_avoidance = true

@@ -1,0 +1,153 @@
+[gd_scene load_steps=23 format=3 uid="uid://c5snibou75elx"]
+
+[ext_resource type="PackedScene" uid="uid://ci8y8mvd357x0" path="res://ui/ui.tscn" id="1_w8fsm"]
+[ext_resource type="Script" path="res://characters/shared/unit_manager.gd" id="2_10vw0"]
+[ext_resource type="Script" path="res://ui/camera_movement.gd" id="2_q5xho"]
+[ext_resource type="PackedScene" uid="uid://c2815frqispr5" path="res://characters/corrupted/rat/mutant_rat.tscn" id="4_mureg"]
+[ext_resource type="PackedScene" uid="uid://bslbtdodqcvea" path="res://_imports/stylized_nature_megakit/Bush_Common.gltf" id="5_jw17m"]
+[ext_resource type="PackedScene" uid="uid://1wp2aslr067a" path="res://_imports/stylized_nature_megakit/Bush_Common_Flowers.gltf" id="6_ho247"]
+[ext_resource type="PackedScene" uid="uid://dj61m66a4skvl" path="res://_imports/stylized_nature_megakit/CommonTree_1.gltf" id="7_pd3yd"]
+[ext_resource type="PackedScene" uid="uid://5l4u5nmeesrs" path="res://_imports/stylized_nature_megakit/Fern_1.gltf" id="8_n130t"]
+[ext_resource type="PackedScene" uid="uid://gv64l02i068a" path="res://_imports/stylized_nature_megakit/Grass_Common_Short.gltf" id="9_8n0mq"]
+[ext_resource type="PackedScene" uid="uid://py7jjyavhim5" path="res://_imports/stylized_nature_megakit/Grass_Common_Tall.gltf" id="10_3ieds"]
+[ext_resource type="PackedScene" uid="uid://x8jw0345plp8" path="res://_imports/stylized_nature_megakit/Pebble_Round_1.gltf" id="11_nalro"]
+[ext_resource type="PackedScene" uid="uid://4gkxyq4totx6" path="res://_imports/stylized_nature_megakit/Pebble_Round_2.gltf" id="12_hqdar"]
+[ext_resource type="PackedScene" uid="uid://lsnrvhtj8c2q" path="res://structures/grove/grove_soul/grove_soul.tscn" id="14_s874s"]
+
+[sub_resource type="GDScript" id="GDScript_o1ers"]
+script/source = "extends Node
+
+
+func _ready() -> void:
+	pass
+"
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7u33g"]
+
+[sub_resource type="Sky" id="Sky_pkq0b"]
+sky_material = SubResource("ProceduralSkyMaterial_7u33g")
+
+[sub_resource type="Environment" id="Environment_fl6l4"]
+background_mode = 2
+sky = SubResource("Sky_pkq0b")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5nyxh"]
+albedo_color = Color(0.346459, 0.604775, 0.356221, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_pwk3l"]
+material = SubResource("StandardMaterial3D_5nyxh")
+size = Vector2(100, 100)
+orientation = 1
+
+[sub_resource type="Curve3D" id="Curve3D_xkf7x"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 37.031, 0, 0, 0, 0, 0, 0, 0, 0, 15.791, 0, 0, 0, 0, 0, 0, 0, 0, -12.254, 0, 0, 0, 0, 0, 0, 0, 0, -46.373),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_pe6om"]
+vertices = PackedVector3Array(-4.5, 0.4, -50.415, -4.5, 0.4, 49.585, 4.5, 0.4, 49.585, 4.5, 0.4, -50.415)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+sample_partition_type = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4fia"]
+albedo_color = Color(0.711899, 0.55464, 0.333475, 1)
+
+[node name="Main" type="Node"]
+
+[node name="MainMenu" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Level" type="Node" parent="."]
+script = SubResource("GDScript_o1ers")
+
+[node name="UnitManager" type="Node3D" parent="Level" node_paths=PackedStringArray("corrupted_spawn", "grove_spawn", "path")]
+script = ExtResource("2_10vw0")
+corrupted = Array[PackedScene]([ExtResource("4_mureg")])
+corrupted_spawn = NodePath("../Path/CorruptedSpawn")
+grove_spawn = NodePath("../Path/GroveSpawn")
+path = NodePath("../Path")
+
+[node name="SpawnTimer" type="Timer" parent="Level/UnitManager"]
+autostart = true
+
+[node name="UI" parent="Level" instance=ExtResource("1_w8fsm")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Level"]
+environment = SubResource("Environment_fl6l4")
+
+[node name="Sun" type="DirectionalLight3D" parent="Level"]
+transform = Transform3D(0.707107, 0.5, -0.5, -0.353553, 0.862372, 0.362372, 0.612372, -0.0794591, 0.786566, 0, 13.7, 0)
+light_bake_mode = 1
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 15, 8.2)
+current = true
+size = 28.619
+script = ExtResource("2_q5xho")
+
+[node name="Environment" type="Node3D" parent="Level"]
+
+[node name="Bush_Common2" parent="Level/Environment" instance=ExtResource("5_jw17m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.7, -0.3, 10)
+
+[node name="Bush_Common_Flowers2" parent="Level/Environment" instance=ExtResource("6_ho247")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 8.9)
+
+[node name="CommonTree_12" parent="Level/Environment" instance=ExtResource("7_pd3yd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 0.1, 8.6)
+
+[node name="CommonTree_13" parent="Level/Environment" instance=ExtResource("7_pd3yd")]
+transform = Transform3D(0.815, 0, 0, 0, 0.815, 0, 0, 0, 0.815, -17.8, 0.1, 10.8)
+
+[node name="Fern_12" parent="Level/Environment" instance=ExtResource("8_n130t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.2, 0, 10.1)
+
+[node name="Grass_Common_Short2" parent="Level/Environment" instance=ExtResource("9_8n0mq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.6, 0, 11.3)
+
+[node name="Grass_Common_Tall2" parent="Level/Environment" instance=ExtResource("10_3ieds")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, 10.4)
+
+[node name="Pebble_Round_12" parent="Level/Environment" instance=ExtResource("11_nalro")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5, 0, 12.2)
+
+[node name="Pebble_Round_22" parent="Level/Environment" instance=ExtResource("12_hqdar")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.2, 0, 11.9)
+
+[node name="Ground" type="MeshInstance3D" parent="Level"]
+mesh = SubResource("QuadMesh_pwk3l")
+skeleton = NodePath("../..")
+
+[node name="Path3D" type="Path3D" parent="Level"]
+curve = SubResource("Curve3D_xkf7x")
+
+[node name="Path" type="NavigationRegion3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0, -0.1)
+navigation_mesh = SubResource("NavigationMesh_pe6om")
+
+[node name="PathMesh" type="CSGCombiner3D" parent="Level/Path"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Level/Path/PathMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.415001, 0, 0)
+size = Vector3(101, 0.2, 10)
+material = SubResource("StandardMaterial3D_t4fia")
+
+[node name="CorruptedSpawn" type="Node3D" parent="Level/Path"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -48.3)
+
+[node name="GroveSpawn" type="Node3D" parent="Level/Path"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 34.2)
+
+[node name="GroveSoul" parent="Level" instance=ExtResource("14_s874s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0999985, 2.6, 44.6)
+
+[connection signal="timeout" from="Level/UnitManager/SpawnTimer" to="Level/UnitManager" method="_on_spawn_timer_timeout"]

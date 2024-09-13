@@ -1,0 +1,57 @@
+[gd_scene load_steps=5 format=3 uid="uid://c2815frqispr5"]
+
+[ext_resource type="PackedScene" uid="uid://ccl0nnsjdg1d5" path="res://characters/corrupted/rat/MutantRat_01.glb" id="1_416bq"]
+[ext_resource type="Script" path="res://characters/corrupted/rat/mutant_rat.gd" id="2_5gd5w"]
+[ext_resource type="Material" uid="uid://nrlypjafl8tu" path="res://characters/corrupted/rat/temp_rat_material.tres" id="2_8bf4j"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_py1ob"]
+size = Vector3(1, 1, 2.6)
+
+[node name="MutantRat_01" instance=ExtResource("1_416bq")]
+transform = Transform3D(1, 0, -2.13163e-14, 0, 1, 0, 2.13163e-14, 0, 1, 0, 0, 0)
+collision_layer = 2
+script = ExtResource("2_5gd5w")
+move_speed = 10.0
+
+[node name="Skeleton3D" parent="MutantRat_3D_Armature_01" index="0"]
+bones/1/rotation = Quaternion(0.706635, 0.0580519, 0.122847, 0.69441)
+bones/2/rotation = Quaternion(0.26821, 0.586531, 0.24328, 0.724472)
+bones/2/scale = Vector3(1, 1, 1)
+bones/3/rotation = Quaternion(0.509385, 0.549288, 0.501461, -0.432836)
+bones/5/rotation = Quaternion(0.174346, 0, 0, 0.984684)
+bones/7/rotation = Quaternion(0.134545, 2.36251e-07, 3.20781e-08, 0.990907)
+bones/8/rotation = Quaternion(-0.160565, -1.17663e-07, -5.74226e-08, 0.987025)
+bones/9/rotation = Quaternion(0.442009, -0.586267, -0.440254, 0.516813)
+bones/9/scale = Vector3(1, 1, 1)
+bones/11/rotation = Quaternion(0.0575614, 0.752289, 0.46712, 0.461027)
+bones/11/scale = Vector3(1, 1, 1)
+bones/12/rotation = Quaternion(-0.21712, 0.103432, 0.12446, 0.962637)
+bones/13/rotation = Quaternion(0.442009, 0.586268, 0.440254, 0.516812)
+bones/15/rotation = Quaternion(-0.0575617, 0.752289, 0.46712, -0.461027)
+bones/15/scale = Vector3(1, 1, 1)
+bones/16/rotation = Quaternion(-0.21712, -0.103432, -0.12446, 0.962637)
+bones/16/scale = Vector3(1, 1, 1)
+bones/17/rotation = Quaternion(0.996837, 0, 0, 0.0794788)
+bones/17/scale = Vector3(1, 1, 1)
+bones/18/rotation = Quaternion(0.121758, 0, 0, 0.99256)
+bones/18/scale = Vector3(1, 1, 1)
+bones/19/rotation = Quaternion(0.0905281, 0, 0, 0.995894)
+bones/19/scale = Vector3(1, 1, 1)
+bones/20/rotation = Quaternion(0.0786571, 0, 0, 0.996902)
+bones/21/rotation = Quaternion(0.0756772, -5.88753e-09, 4.50685e-09, 0.997132)
+bones/21/scale = Vector3(1, 1, 1)
+bones/22/rotation = Quaternion(0.706635, -0.0580519, -0.122847, 0.69441)
+bones/22/scale = Vector3(1, 1, 1)
+bones/23/rotation = Quaternion(0.268211, -0.58653, -0.24328, 0.724473)
+bones/23/scale = Vector3(1, 1, 1)
+bones/24/rotation = Quaternion(-0.509386, 0.549287, 0.50146, 0.432837)
+bones/24/scale = Vector3(1, 1, 1)
+
+[node name="MutantRat_3D_Model_01" parent="MutantRat_3D_Armature_01/Skeleton3D" index="0"]
+material_override = ExtResource("2_8bf4j")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0.0999999)
+shape = SubResource("BoxShape3D_py1ob")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." index="2"]

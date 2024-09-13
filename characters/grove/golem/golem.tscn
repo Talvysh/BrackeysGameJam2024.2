@@ -1,0 +1,60 @@
+[gd_scene load_steps=8 format=3 uid="uid://bgbqstcbpnbkq"]
+
+[ext_resource type="Script" path="res://characters/shared/unit.gd" id="1_q8xnx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wbn0c"]
+albedo_color = Color(0.219783, 0.587204, 0.674379, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_pxxlp"]
+material = SubResource("StandardMaterial3D_wbn0c")
+
+[sub_resource type="BoxMesh" id="BoxMesh_2hk65"]
+size = Vector3(1, 0.2, 0.2)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kg4ku"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2ld4f"]
+size = Vector3(1, 2, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_nxhdc"]
+radius = 10.0
+
+[node name="Golem" type="CharacterBody3D" groups=["grove_unit"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_q8xnx")
+move_speed = 10.0
+
+[node name="Body" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_pxxlp")
+
+[node name="Face" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.4)
+mesh = SubResource("BoxMesh_2hk65")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_kg4ku")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+target_desired_distance = 2.0
+path_max_distance = 20.01
+avoidance_enabled = true
+neighbor_distance = 20.0
+max_neighbors = 20
+time_horizon_agents = 3.0
+
+[node name="SelectionArea" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SelectionArea"]
+shape = SubResource("BoxShape3D_2ld4f")
+
+[node name="UnitTargeting" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 2
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="UnitTargeting"]
+shape = SubResource("SphereShape3D_nxhdc")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]
+[connection signal="input_event" from="SelectionArea" to="." method="_on_selection_area_input_event"]

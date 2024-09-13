@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=3 format=3 uid="uid://2s4b55aofj6q"]
+
+[ext_resource type="Script" path="res://data/unit_data.gd" id="1_3lyby"]
+[ext_resource type="PackedScene" uid="uid://c2815frqispr5" path="res://characters/corrupted/rat/mutant_rat.tscn" id="1_62ldf"]
+
+[resource]
+script = ExtResource("1_3lyby")
+display_name = "Mutated Rat"
+description = "A short description of the unit."
+scene = ExtResource("1_62ldf")
