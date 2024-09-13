@@ -9,12 +9,12 @@ var _end_drag : Vector2
 var _camera : Camera3D
 var _check_drag := false
 var _selection_rect : AABB
-var selected_units : Array[Creature]
+var selected_units : Array[Unit]
 
-@onready var debug_dragging: Label = $"../Debug/Dragging"
-@onready var debug_drag_start: Label = $"../Debug/DragStart"
-@onready var debug_drag_end: Label = $"../Debug/DragEnd"
-@onready var test_mesh: MeshInstance3D = $TestMesh
+@onready var debug_dragging: Label = $"../VBoxContainer/Debug/Dragging"
+@onready var debug_drag_start: Label = $"../VBoxContainer/Debug/DragStart"
+@onready var debug_drag_end: Label = $"../VBoxContainer/Debug/DragEnd"
+@onready var debug_camera_position : Label = $"../VBoxContainer/CameraPosition"
 
 
 func _ready() -> void:
@@ -25,29 +25,43 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	debug_dragging.text = "Dragging: %s" % dragging
 	
+	# TODO: Move this to ui.gd
+	debug_camera_position.text = "Camera Position: %s" % _camera.global_position
+	
 	if dragging:		
 		debug_drag_start.text = "Drag Start: %s" % _begin_drag
 		debug_drag_end.text = "Drag End: %s" % _end_drag
+	
+	# No need to check if we are in building mode
+	if GameManager.action_state == GameManager.ActionState.BUILDING:
+		_deselect_units()
+		return
 	
 	if _check_drag:
 		_get_units_in_selection()
 		_check_drag = false
 	
-	if Input.is_action_just_pressed("move_units"):
-		if selected_units.is_empty():
-			return
-		else:
+	if Input.is_action_pressed("move_units"):
+		if not selected_units.is_empty():
 			for unit in selected_units:
-				var pos = _raycast_from_mouse()
+				var pos = Util.ray_from_mouse()
 				print(pos)
 				unit.move(pos)
 
 
 func _process(delta: float) -> void:
+	# No need to check if we are in building mode
+	if GameManager.action_state == GameManager.ActionState.BUILDING:
+		return
+
 	queue_redraw()
 
 
 func _draw() -> void:
+	# No need to check if we are in building mode
+	if GameManager.action_state == GameManager.ActionState.BUILDING:
+		return
+	
 	if dragging:
 		var w = _end_drag.x - _begin_drag.x
 		var h = _end_drag.y - _begin_drag.y
@@ -55,8 +69,12 @@ func _draw() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	# No need to check if we are in building mode
+	if GameManager.action_state == GameManager.ActionState.BUILDING:
+		return
+
 	if Input.is_action_just_pressed("ui_cancel"):
-		dragging = false
+		_deselect_units()
 	
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
@@ -75,6 +93,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _get_units_in_selection() -> void:
+	if _begin_drag.distance_to(_end_drag) < 10.0:
+		return
+	
 	var start = Vector2.ZERO
 	var end = Vector2.ZERO
 	var temp_x = 0.0
@@ -93,7 +114,7 @@ func _get_units_in_selection() -> void:
 	var rect = Rect2(start, size)
 	print(rect)
 	
-	selected_units = []
+	_deselect_units()
 	
 	for unit in get_tree().get_nodes_in_group("grove_unit"):
 		var unit_viewport_pos = _camera.unproject_position(unit.global_position)
@@ -101,23 +122,18 @@ func _get_units_in_selection() -> void:
 		if rect.has_point(unit_viewport_pos):
 			selected_units.append(unit)
 			unit.selected()
-		else:
-			unit.unselected()
-
-func _raycast_from_mouse() -> Vector3:
-	var space = _camera.get_world_3d().direct_space_state
-	var query = PhysicsRayQueryParameters3D.new()
-	query.from = _camera.project_ray_origin(get_global_mouse_position())
-	query.to = query.from + _camera.project_ray_normal(get_global_mouse_position()) * 1000
-	query.exclude = [self, _camera]
-	var results = space.intersect_ray(query)
-	
-	if results:
-		return results["position"]
-	else:
-		return Vector3.ZERO
 
 
-func _on_unit_selected(unit : Creature) -> void:
-	selected_units = []
+func _on_unit_selected(unit : Unit) -> void:
+	_deselect_units()
 	selected_units.append(unit)
+
+
+func _deselect_units() -> void:
+	if selected_units.is_empty():
+		return
+	
+	for u in selected_units:
+		u.unselected()
+	
+	selected_units = []

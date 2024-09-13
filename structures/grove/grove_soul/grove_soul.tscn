@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://lsnrvhtj8c2q"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1l1ln"]
+albedo_color = Color(0, 0.603922, 0.603922, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_uedcs"]
+material = SubResource("StandardMaterial3D_1l1ln")
+size = Vector3(8, 5, 8)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_lshl8"]
+data = PackedVector3Array(-4, 2.5, 4, 4, 2.5, 4, -4, -2.5, 4, 4, 2.5, 4, 4, -2.5, 4, -4, -2.5, 4, 4, 2.5, -4, -4, 2.5, -4, 4, -2.5, -4, -4, 2.5, -4, -4, -2.5, -4, 4, -2.5, -4, 4, 2.5, 4, 4, 2.5, -4, 4, -2.5, 4, 4, 2.5, -4, 4, -2.5, -4, 4, -2.5, 4, -4, 2.5, -4, -4, 2.5, 4, -4, -2.5, -4, -4, 2.5, 4, -4, -2.5, 4, -4, -2.5, -4, 4, 2.5, 4, -4, 2.5, 4, 4, 2.5, -4, -4, 2.5, 4, -4, 2.5, -4, 4, 2.5, -4, -4, -2.5, 4, 4, -2.5, 4, -4, -2.5, -4, 4, -2.5, 4, 4, -2.5, -4, -4, -2.5, -4)
+
+[node name="GroveSoul" type="StaticBody3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_uedcs")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConcavePolygonShape3D_lshl8")

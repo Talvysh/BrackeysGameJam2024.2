@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://dvw37v4bnq5pp"]
+
+[ext_resource type="Script" path="res://structures/grove/summoning_circle/summoning_circle.gd" id="1_rbnhd"]
+[ext_resource type="BoxMesh" uid="uid://bxptoycrwpfah" path="res://structures/grove/summoning_circle/summoning_circle_mesh.tres" id="2_xtc11"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_n8bio"]
+size = Vector3(2, 0.2, 2)
+
+[node name="SummoningCircle" type="StaticBody3D"]
+script = ExtResource("1_rbnhd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("2_xtc11")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_n8bio")
+
+[node name="SpawnPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+
+[node name="SummoningChoices" type="VBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
+radius = 1.5
+affect_navigation_mesh = true
+use_3d_avoidance = true

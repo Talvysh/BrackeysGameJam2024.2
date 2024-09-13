@@ -1,3 +1,4 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+/_imports/stylized_nature_megakit/
