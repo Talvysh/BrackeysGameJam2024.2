@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://py7jjyavhim5" path="res://_imports/stylized_nature_megakit/Grass_Common_Tall.gltf" id="10_3ieds"]
 [ext_resource type="PackedScene" uid="uid://x8jw0345plp8" path="res://_imports/stylized_nature_megakit/Pebble_Round_1.gltf" id="11_nalro"]
 [ext_resource type="PackedScene" uid="uid://4gkxyq4totx6" path="res://_imports/stylized_nature_megakit/Pebble_Round_2.gltf" id="12_hqdar"]
-[ext_resource type="PackedScene" uid="uid://lsnrvhtj8c2q" path="res://structures/grove/grove_soul/grove_soul.tscn" id="14_s874s"]
+[ext_resource type="PackedScene" uid="uid://lsnrvhtj8c2q" path="res://structures/grove/soul/grove_soul.tscn" id="14_s874s"]
 
 [sub_resource type="GDScript" id="GDScript_o1ers"]
 script/source = "extends Node
